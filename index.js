@@ -1,42 +1,30 @@
-require('dotenv').config()
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const router = require('./routes');
+require('./connection');
 
-const express = require('express')
+const pfServer = express();
 
-const cors = require('cors')
+pfServer.use(cors());
+pfServer.use(express.json());
 
-const router = require('./routes')
+// Default route to avoid "Cannot GET /" error
+pfServer.get('/', (req, res) => {
+    res.send('Backend is running successfully');
+});
 
-
-/* const app = require('./middleware/appMiddleware') */
-
-require('./connection')
-
-const pfServer = express()
-
+// Book download route
 pfServer.get('/download-url/:bookId', (req, res) => {
     const bookId = req.params.bookId;
-    
-    // Generate the download URL based on the book ID
     const downloadUrl = `http://example.com/files/book-${bookId}.pdf`;
-    
     res.json({ downloadUrl });
-  });
+});
 
-pfServer.use(cors())
+// Use defined routes
+pfServer.use(router);
 
-pfServer.use(express.json())
-
-/* pfServer.use(app) */
-
-pfServer.use(router)
-
-
-PORT = 8000 || process.env.PORT
-
-pfServer.listen(PORT,()=>{
-    console.log(`server running successfully at port number : ${PORT}`);
-})
-
-/* pfServer.get('/',(req,res)=>{
-    res.send('get request received')
-}) */
+const PORT = process.env.PORT || 8000;
+pfServer.listen(PORT, () => {
+    console.log(`Server running successfully at port number: ${PORT}`);
+});
