@@ -24,7 +24,8 @@ pfServer.get('/download-url/:bookId', (req, res) => {
 // Use defined routes
 pfServer.use(router);
 
-const PORT = process.env.PORT || 8000;
-pfServer.listen(PORT, () => {
-    console.log(`Server running successfully at port number: ${PORT}`);
+const PORT = process.env.PORT || 10000; // Ensure using process.env.PORT
+pfServer.listen(PORT, '0.0.0.0', () => {
+    console.log(`🚀 Server running successfully at port number: ${PORT}`);
 });
+
