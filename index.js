@@ -6,7 +6,9 @@ require('./connection');
 
 const pfServer = express();
 
-pfServer.use(cors());
+pfServer.use(cors({ 
+    origin: '*' // Allow all origins
+}));
 pfServer.use(express.json());
 
 // Default route to avoid "Cannot GET /" error
